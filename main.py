@@ -49,7 +49,10 @@ def main():
 
     # Add the entered data to the session state data
     if st.button("Add"):
-        st.session_state.data.append([name, cost, price, quantity])
+        if len(st.session_state.data) < 10:
+            st.session_state.data.append([name, cost, price, quantity])
+        else:
+            st.warning("You have reached the maximum of 10 rows and cannot add more.")
 
     # Display the data in a dynamic table with a maximum of 10 rows
     st.title("Products:")
