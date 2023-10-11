@@ -39,25 +39,36 @@ def main():
 
     # Create input fields in each column
     with col1:
-        name = st.text_input("Name", key="col1")
+        name = st.text_input("Name", key="name")
     with col2:
-        cost = st.text_input("Cost", key="col2")
+        cost = st.number_input("Cost", key="cost")
     with col3:
-        price = st.text_input("Price", key="col3")
+        price = st.number_input("Price", key="price")
     with col4:
-        quantity = st.text_input("Quantity Sold", key="col4")
+        quantity_sold = st.number_input("Quantity Sold", key="quantity_sold")
 
     # Add the entered data to the session state data
     if st.button("Add"):
         if len(st.session_state.data) < 10:
-            st.session_state.data.append([name, cost, price, quantity])
+            st.session_state.data.append([name, cost, price, quantity_sold])
         else:
             st.warning("You have reached the maximum of 10 rows and cannot add more.")
 
     # Display the data in a dynamic table with a maximum of 10 rows
     st.title("Products:")
-    df = pd.DataFrame(st.session_state.data[:10], columns=["Name", "Cost", "Price", "Quantity"])
+    df = pd.DataFrame(st.session_state.data[:10], columns=["Name", "Cost", "Price", "Quantity Sold"])
+
+    # Calculate Revenue and Profit
+    df['Revenue'] = df['Price'] * df['Quantity Sold']
+    df['Profit'] = (df['Price'] - df['Cost']) * df['Quantity Sold']
+
     st.dataframe(df, width=800)
+
+    # Calculate and display the total Revenue and Profit
+    total_revenue = df['Revenue'].sum()
+    total_profit = df['Profit'].sum()
+    st.write(f"Total Revenue: £{total_revenue:.2f}")
+    st.write(f"Total Profit: £{total_profit:.2f}")
 
 if __name__ == "__main__":
     main()
