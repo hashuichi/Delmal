@@ -45,7 +45,7 @@ def main():
     with col3:
         price = st.number_input("Price", key="price")
     with col4:
-        quantity_sold = st.number_input("Quantity Sold", key="quantity_sold")
+        quantity_sold = st.number_input("Quantity Sold", key="quantity_sold", step=1)
 
     # Add the entered data to the session state data
     if st.button("Add"):
@@ -69,6 +69,11 @@ def main():
     total_profit = df['Profit'].sum()
     st.write(f"Total Revenue: £{total_revenue:.2f}")
     st.write(f"Total Profit: £{total_profit:.2f}")
+
+    # Input field for initial investment
+    investment = st.number_input("Investment", key="investment", min_value=0, step=1)
+    roi = (total_profit / investment) * 100 if investment > 0 else 0
+    st.write(f"Return on Investment (ROI): {roi:.2f}%")
 
 if __name__ == "__main__":
     main()
