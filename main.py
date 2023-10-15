@@ -45,7 +45,7 @@ def main():
     )
 
     # Create a grid with 4 columns
-    page_col1, page_col2 = st.columns(2)
+    page_col1, page_col2 = st.columns([2,1])
     
     with page_col1:
         col1, col2, col3, col4 = st.columns(4)
@@ -91,7 +91,7 @@ def main():
 
     with page_col2:
         # Forecast Revenue and Profit for the next 5 years using Simple Exponential Smoothing
-        if len(df) > 0:
+        if len(df) > 1:
             # Generate a time index for forecasting
             num_years = 5
             forecast_index = pd.date_range(start=df.index[-1], periods=num_years * 12, freq='M')
@@ -109,10 +109,10 @@ def main():
             revenue_forecast = model_fit.forecast(steps=num_years * 12)
             profit_forecast = (revenue_forecast - df['Cost'].mean()) * df['Quantity Sold'].mean()
 
-        page_col2.write("Revenue Forecast for the Next 5 Years:")
-        page_col2.line_chart(revenue_forecast)
-        page_col2.write("Profit Forecast for the Next 5 Years:")
-        page_col2.line_chart(profit_forecast)
+            page_col2.write("Revenue Forecast for the Next 5 Years:")
+            page_col2.line_chart(revenue_forecast)
+            page_col2.write("Profit Forecast for the Next 5 Years:")
+            page_col2.line_chart(profit_forecast)
 
 if __name__ == "__main__":
     main()
