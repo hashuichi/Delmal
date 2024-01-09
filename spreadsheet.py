@@ -8,14 +8,10 @@ class Spreadsheet:
         self.data = pd.read_csv(data_path)
         self.filtered_data = None
         self.selected_date = None
-        self.year = None
-        self.month = None
-        self.years_select = [2023,2024,2025,2026]
-        self.months_select = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-        self.new_entry = {'Name': None, 'Cost': None, 'Price': None, 'Quantity': None}
+        self.new_entry = {}
 
     def input_data(self):
-        col1, col2, col3, col4 = st.columns(4)
+        col1, col2, col3, col4, col5 = st.columns([2,2,2,2,0.7])
 
         self.new_entry['Name'] = col1.text_input("Name", key="name", label_visibility="hidden")
         self.new_entry['Cost'] = col2.number_input("Cost", key="cost", label_visibility="hidden")
