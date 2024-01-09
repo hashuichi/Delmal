@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 
-st.header("My Demo App")
+st.header("Excel Import")
 
 if 'open' not in st.session_state:
     st.session_state.open = False
