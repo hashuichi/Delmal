@@ -4,7 +4,7 @@ from datetime import datetime
 from spreadsheet import Spreadsheet
 
 def main():
-    data_path = "revenue.csv"
+    data_path = "expenditure.csv"
     explorer = Spreadsheet(data_path)
     st.title("Data")
     explorer.date_selector()
