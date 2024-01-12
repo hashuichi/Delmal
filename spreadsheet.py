@@ -13,10 +13,10 @@ class Spreadsheet:
     def input_data(self):
         col1, col2, col3, col4, col5 = st.columns([2,2,2,2,0.7])
 
-        self.new_entry['Name'] = col1.text_input("Name", key="name", label_visibility="hidden")
-        self.new_entry['Cost'] = col2.number_input("Cost", key="cost", label_visibility="hidden")
-        self.new_entry['Price'] = col3.number_input("Price", key="price", label_visibility="hidden")
-        self.new_entry['Quantity']= col4.number_input("Quantity Sold", key="quantity", step=1, label_visibility="hidden")
+        self.new_entry['Name'] = col1.text_input("Name", key="name", label_visibility="collapsed")
+        self.new_entry['Cost'] = col2.number_input("Cost", key="cost", label_visibility="collapsed")
+        self.new_entry['Price'] = col3.number_input("Price", key="price", label_visibility="collapsed")
+        self.new_entry['Quantity']= col4.number_input("Quantity Sold", key="quantity", step=1, label_visibility="collapsed")
                 
         if st.button("Add", type='primary', use_container_width=True):
             self.new_entry['Date'] = self.selected_date
@@ -31,7 +31,7 @@ class Spreadsheet:
         self.original_indices = self.filtered_data.index.tolist()
         self.filtered_data.reset_index(drop=True, inplace=True)
 
-        st.subheader(f"Data for {self.selected_date}")
+        # st.subheader(f"Data for {self.selected_date}")
         num_columns = self.filtered_data.shape[1]
         column_widths = [2] * (num_columns) + [0.6]
         columns = st.columns(column_widths)
