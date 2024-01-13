@@ -1,0 +1,39 @@
+.metric-container {
+    border: 2px solid black;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 10px;
+}
+
+.metric_icon {
+    font-size: 2em;
+}
+
+.metric_currency {
+    color: grey;
+    font-size: 1.5em;
+    display: flex;
+    height: 3em;
+}
+
+.metric_name {
+    color: gray;
+    font-size: 1em;
+    display: flex;
+    height: 5em;
+    width: 10em;
+}
+
+.positive-profit {
+    color: green;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.negative-profit {
+    color: red;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

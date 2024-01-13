@@ -1,10 +1,18 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
-import seaborn as sns
 from datetime import datetime
 
-currency = 'gbp'
+with open("styles.css", "r") as f:
+    css_content = f.read()
+
+st.markdown(f"""
+    <style>
+        {css_content}
+    </style>
+""", unsafe_allow_html=True)
+
+currency = 'SAR'
 
 def calculate_metrics(df):
     total_revenue = (df['Price'] * df['Quantity']).sum()
@@ -75,47 +83,60 @@ def main():
         selected_year = st.sidebar.slider('Select a year', df['Date'].dt.year.min(), df['Date'].dt.year.max())
         filtered_df = df[df['Date'].dt.year == selected_year]
 
-    # st.subheader('Filtered DataFrame')
-    # st.write(filtered_df)
-    
     total_revenue, total_expenditure, gross_profit_margin, cash_reserves, burn_rate = calculate_metrics(filtered_df)
-    # st.markdown("<h1 style='text-align: center; color: red;'>Some title</h1>", unsafe_allow_html=True)
-    page_col1, page_col2, page_col3 = st.columns([1,0.3,1])
+    page_col1, page_col2 = st.columns([1,1])
+
     with page_col1:
         with st.container():
             col1, col2, col3, col4, = st.columns(4)
-            col1.title('💰')
-            col2.header(f':gray[{currency}]')
-            col3.header(f':blue[{total_revenue}]', divider=True)
-            col4.subheader("Revenue")
+            col1.write("<h1>💰</h1>", unsafe_allow_html=True)
+            col2.write("<h2 class='metric_currency'>{}</h2>".format(currency), unsafe_allow_html=True)
+            col3.write("<h2>{}</h2>".format(total_revenue), unsafe_allow_html=True)
+            col4.write("<h3 class='metric_name'>Revenue</h3>", unsafe_allow_html=True)
+            st.divider()
+        with st.container():
+            col1, col2, col3, col4, = st.columns(4)
+            col1.write("<h1>💸</h1>", unsafe_allow_html=True)
+            col2.write("<h2 class='metric_currency'>{}</h2>".format(currency), unsafe_allow_html=True)
+            col3.write("<h2>{}</h2>".format(total_expenditure), unsafe_allow_html=True)
+            col4.write("<h3 class='metric_name'>Expenditure</h3>", unsafe_allow_html=True)
+            st.divider()
 
         with st.container():
             col1, col2, col3, col4, = st.columns(4)
-            col1.title('💸')
-            col2.header(f':gray[{currency}]')
-            col3.header(f':green[{total_expenditure}]', divider=True)
-            col4.subheader("Expenditure")
+            col1.write("<h1>📈</h1>", unsafe_allow_html=True)
+            profit_margin_class = "positive-profit" if gross_profit_margin > 0 else "negative-profit"
+            col3.write("<h2 class='profit-margin {}'>{:.1f}%</h2>".format(profit_margin_class, gross_profit_margin), unsafe_allow_html=True)
+            col4.write("<h3 class='metric_name'>Profit</h3>", unsafe_allow_html=True)
+            st.divider()
+
+        funds_data = [total_revenue, total_expenditure]
+        try:
+            funds_labels = ['Revenue', 'Expenditure']
+            fig, ax = plt.subplots(figsize=(8, 8))
+            ax.pie(funds_data, labels=funds_labels, autopct='%1.1f%%', startangle=140)
+            ax.axis('equal')  # Equal aspect ratio ensures that the pie is drawn as a circle
+            st.pyplot(fig)
+        except:
+            st.warning("There is no data to display charts. Please select a different date.")
+
+
+    with page_col2:
+        with st.container():
+            col1, col2, col3, col4, = st.columns(4)
+            col1.write("<h1>🏦</h1>", unsafe_allow_html=True)
+            col2.write("<h2 class='metric_currency'>{}</h2>".format(currency), unsafe_allow_html=True)
+            col3.write("<h2>{}</h2>".format(cash_reserves), unsafe_allow_html=True)
+            col4.write("<h3 class='metric_name'>Cash Reserves</h3>", unsafe_allow_html=True)
+            st.divider()
 
         with st.container():
             col1, col2, col3, col4, = st.columns(4)
-            col1.title('📈')
-            col3.header(f':orange[{gross_profit_margin:.1f}%]', divider=True)
-            col4.subheader("Gross Profit")
-
-    with page_col3:       
-        with st.container():
-            col1, col2, col3, col4, = st.columns(4)
-            col1.title('🏦')
-            col2.header(currency)
-            col3.header(f':red[{cash_reserves}]', divider=True)
-            col4.subheader("Cash Reserves")
-
-        with st.container():
-            col1, col2, col3, col4, = st.columns(4)
-            col1.title('🔥')
-            col2.header(currency)
-            col3.header(f':violet[{burn_rate}]', divider=True)
-            col4.subheader("Burn Rate")
+            col1.write("<h1>🔥</h1>", unsafe_allow_html=True)
+            col2.write("<h2 class='metric_currency'>{}</h2>".format(currency), unsafe_allow_html=True)
+            col3.write("<h2>{}</h2>".format(burn_rate), unsafe_allow_html=True)
+            col4.write("<h3 class='metric_name'>Burn Rate</h3>", unsafe_allow_html=True)
+            st.divider()
 
     # # Graphs section (you can add your graph code here)
     # with col2:
