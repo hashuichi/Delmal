@@ -10,6 +10,9 @@ class Spreadsheet:
         self.selected_date = None
         self.new_entry = {}
 
+    def get_data(self):
+        return self.data
+
     def input_data(self):
         col1, col2, col3, col4, col5 = st.columns([2,2,2,2,0.7])
 
